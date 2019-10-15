@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="galaxy" class="ssafy.product.GalaxyFold">	
+		<constructor-arg name="price" value="250"></constructor-arg>
+		<constructor-arg name="cam" ref="cannoncam"></constructor-arg>
+	</bean>
+	<bean id="apple" class="ssafy.product.ApplePhone">	
+		<constructor-arg name="price" value="99"></constructor-arg>
+		<constructor-arg name="cam" ref="cannoncam"></constructor-arg>
+		<!-- <property name="price" value="88"></property>
+		<property name="cam" ref="cannoncam"></property> -->
+	</bean>
+	<bean id="lg" class="ssafy.product.LgPhone">	
+		<constructor-arg name="price" value="150"></constructor-arg>
+		<constructor-arg name="cam" ref="lgcam"></constructor-arg>
+	</bean>
+		
+	<bean id="applephone" class="ssafy.product.ApplePhone">	</bean>
+	<bean id="cannoncam" class="ssafy.product.CanonCamera">	</bean>
+	<bean id="samsungcam" class="ssafy.product.SamsungCamera">	</bean>
+	<bean id="lgcam" class="ssafy.product.LgCamera">	</bean>
+</beans>
