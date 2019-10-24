@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="edu.ssafy.util.BoardDto" alias="boardDto"/>
+	</typeAliases>
+	<!-- 우리는 값을 넣어줬기 때문에 .... 뭘 지움.. -->
+  <mappers>
+  	<!-- spring폴더 밑에 member_sql.xml을 찾아라.  -->
+    <mapper resource="spring/boardSqlMapper.xml"/>
+  </mappers>
+</configuration>

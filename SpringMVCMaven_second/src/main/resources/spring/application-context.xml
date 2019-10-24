@@ -1,8 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan base-package="edu.ssafy"></context:component-scan>		<!-- 이걸 적어주면 Impl 애들 이미지에 S자가 생김 -->
+	<mvc:annotation-driven></mvc:annotation-driven>
+	<context:annotation-config> </context:annotation-config>
 		
+	<!-- BasicDataSource는 우리가 직접 쓴 게 아니라 넘겨 받은거다. -->	
+	<!-- Database Connection Pool을 위한 DataSource 설정 -->		<!-- EL문법으로 ${ } 로 가져다가 사용할 수 있음 -->
+	<bean class="org.apache.commons.dbcp.BasicDataSource" id="datasource">
+		<property name="driverClassName" value="com.mysql.cj.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/springweb?serverTimezone=UTC&amp;useUnicode=yes&amp;characterEncoding=UTF-8"></property>
+		<property name="username" value="ssafy"></property>
+		<property name="password" value="ssafy"></property>
+		<property name="maxActive" value="20"></property>
+	</bean>
+    
+    <!-- MyBatis -->
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+		<property name="dataSource" ref="datasource"></property>
+		<!-- MyBatis 설정파일(xml) 등록 -->
+		<property name="configLocation" value="classpath:spring/SqlMapConfig.xml"></property>
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<!-- transaction -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="datasource"></property>
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+    
 </beans>

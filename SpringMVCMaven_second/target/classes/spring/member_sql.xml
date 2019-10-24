@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<!-- 우리는 값을 넣어줬기 때문에 .... 뭘 지움.. -->
+<mapper namespace="sql.member">
+	
+	
+	<!-- namespacce: sql 매핑정보들을 구분하기 위한 값
+		<select> : select 태그를 기술하기 위한 태그
+		id : 매핑정보를 구분하기 위한 id값
+		parameterType : 쿼리 실행시 넘겨받는 인수의 타입
+		resultType : 실행결과를 저장하기 위한 타입
+		#{no} : 인라인 파라미터. 파라미터와 대체되는 요소.	
+	 -->
+	<insert id="insertMember" parameterType="member">
+		insert into members(id, pw, name, email)
+		values(#{id }, #{pw }, #{name }, #{email })
+	</insert>
+	
+	<update id="updateMember"  parameterType="member">
+		update members set pw = #{pw}, name = #{name}, email = #{email} where id = #{id}
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from members where id = #{id}
+	</delete>
+	
+	
+	<select id="selectMember"  parameterType="string"  resultType="member">
+		select id, pw, name, email
+			from members
+		where id = #{id}
+	</select>
+	
+	<select id="selectMembers"  resultType="member">
+		select id, pw, name, email
+			from members
+	</select>
+	
+	
+	
+	<select id="selectjoin">
+		select a.id, a.name, b.id, b.name, b.pw
+		from members a join members b on(a.id = b.id)
+	</select>
+
+  <select id="selectMember"  parameterType="string" resultType="member">
+    select id, pw, name, email from members where id = #{id}
+  </select>
+  <select id="selectMembers" resultType="member">
+    select id, pw, name, email from members order by id
+  </select>
+  
+  <select id="selectif" resultType="member" parameterType="string">
+    select id, pw, name, email from members
+    <where>
+	    <if test="name != null">
+	    	and name=#{name}
+	    </if>
+	    <if test="id != null">
+	    	and id=#{id}
+	    </if>
+    </where>
+     order by id
+  </select>
+  
+  <select id="selectchoose"	parameterType="string" resultType="member">
+  	select id, pw, name, email from members
+    <where>
+    	<choose>
+    		<when test="name != null">
+    			and name - #{name}
+    		</when>
+    		<when test="name = 홍길동">
+    			and id = 1
+    		</when>
+    		<otherwise>
+    			and id = 2
+    		</otherwise>
+    	</choose>
+    </where>
+  </select>
+	
+	
+	
+	
+</mapper>
+
+
+
+<!-- 
+$( ) - jquery
+${ } - EL
+$.( ) - jquery => Ajax
+
+ -->

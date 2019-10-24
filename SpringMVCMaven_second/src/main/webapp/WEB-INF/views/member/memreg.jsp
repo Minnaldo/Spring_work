@@ -5,6 +5,30 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 등록</title>
+<!-- 점심 먹고 와서 버튼부터.. -->
+<script type="text/javascript">
+	function insert() {
+		memform.action = "meminsert";
+		memform.submit();
+	}
+	function update() {
+		memform.action = "memupdate";
+		memform.submit();
+	}
+	function del() {
+		memform.action = "memdelete";
+		memform.submit();
+	}
+	function seletone() {
+		memform.action = "memselectone";
+		memform.submit();
+	}
+	function selectlist() {
+		memform.action = "memselectall";
+		memfrom.submit();
+	}
+</script>
+
 </head>
 <body>
 	<h1>회원등록</h1>
@@ -28,10 +52,19 @@
 			<tr>
 				<td>EMAIL</td>
 				<td><input type="email" id="email" name="email"></td>
+				
+			<!-- 버튼 생성 -->
 			</tr>
+				<td colspan="2">
+					<input type="reset" value="초기화">
+					<input type="button" value="삽입" onclick="insert()">
+					<input type="button" value="수정" onclick="update()">
+					<input type="button" value="삭제" onclick="del()">
+					<input type="button" value="선택조회" onclick="selectone()">
+					<input type="button" value="전체조회" onclick="selectlist()">
+				</td>
 			<tr>
-				<td colspan="2"><input type="reset" value="초기화"> <input
-					type="submit"></td>
+				
 			</tr>
 		</table>
 	</form>

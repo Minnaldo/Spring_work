@@ -1,20 +1,41 @@
 package edu.ssafy.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import edu.ssafy.dto.Member;
+import edu.ssafy.exception.MyException;
+import edu.ssafy.service.MemService;
 
 @Controller
 @RequestMapping(value="/member")
 public class MemberController {		//위에 RequestMapping 으로  내가 memeber로 쓰면 이걸 띄우겠다.
 	
-	ArrayList<Member> list = new ArrayList<Member>();
+	@ExceptionHandler(MyException.class)
+    public String myExceptionMethod(MyException e) {
+        e.trace();
+        return "myerror";
+    }
+    
+    @ExceptionHandler(Exception.class)
+    public String exceptionMethod(Exception e) {
+        e.printStackTrace();
+        return "myerror";
+    }
+	
+	
+	@Autowired
+	@Qualifier(value="MemServiceImpl")
+	MemService ser;
 	
 	@RequestMapping(value="/memregpage")
 	public ModelAndView insertPage(ModelAndView mv) {
@@ -30,80 +51,71 @@ public class MemberController {		//위에 RequestMapping 으로  내가 memeber�
 		String pw = req.getParameter("pw");
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
-		
 		//로직처리
-		
+		ser.insert(id, pw, name, email);
 		//결과처리
-		
-		list.add(new Member(id, null, name, email));
+		List<Member> list = ser.selectList();
 		mv.addObject("list", list);
 		mv.setViewName("member/memlist");
+		
+//		mv.setViewName("redirect:memselectlist");
 		return mv;
 	}
 	
 	@RequestMapping("/memupdate")
 	public ModelAndView update(HttpServletRequest req, ModelAndView mv) {
 		
+		//입력처리
 		String id = req.getParameter("id");
 		String pw = req.getParameter("pw");
 		String name = req.getParameter("name");
 		String email = req.getParameter("email");
-		
-		//�Է�ó��
-		for (Member m : list) {
-			if(m.getId().equals(id)) {
-				m.setName(name);
-				m.setPw(pw);
-				m.setEmail(email);
-				break;
-			}
-		}
-		
+		//로직 처리
+		List<Member> list = ser.selectList();
 		mv.addObject("list",list);
+		ser.update(id, pw, name, email);		
+		//결과처리
 		mv.setViewName("member/memlist");
+		
+//		mv.setViewName("redirect:memselectlist");
 
 		return mv;
 	}
 	
 	@RequestMapping("/memdelete")
 	public ModelAndView delete(HttpServletRequest req, ModelAndView mv) {
-		
+		//입력처리
 		String id = req.getParameter("id");
-		//�Է�ó��
-		for (Member m : list) {
-			if(m.getId().equals(id)) {
-				list.remove(m);
-				break;
-			}
-		}
+		//로직처리
+		ser.delete(id);
+		//결과처리
+		List<Member> list = ser.selectList();
 		mv.addObject("list",list);
-		mv.setViewName("member/memlist");
+		mv.setViewName("member/memlist");	
 		
+//		mv.setViewName("redirect:memselectlist");
 		return mv;
 	}
 	
 	
 	@RequestMapping("/memselectone")
 	public ModelAndView selectone(HttpServletRequest req, ModelAndView mv) {
-		
+		//입력처리
 		String id = req.getParameter("id");
-		ArrayList<Member> meminfo = new ArrayList<Member>();
-		//�Է�ó��
-		for (Member m : list) {
-			if(m.getId().equals(id)) {
-				meminfo.add(m);
-				break;
-			}
-		}
-		
-		mv.addObject("list",meminfo);
-		mv.setViewName("member/memlist");
-
+		Member selectone = ser.selectone(id);
+		//로직처리
+		mv.addObject("mem", selectone);
+		mv.setViewName("member/memview");
+		//결과처리
 		return mv;
 	}
 	
-	@RequestMapping("/memselectall")
-	public ModelAndView selectAll(HttpServletRequest req, ModelAndView mv) {
+	@RequestMapping("/memselectlist")
+	public ModelAndView selectlist(HttpServletRequest req, ModelAndView mv) {
+		//입력처리
+		//로직처리
+		List<Member> list = ser.selectList();	
+		//결과처리
 		mv.addObject("list",list);
 		mv.setViewName("member/memlist");
 
@@ -120,20 +132,4 @@ public class MemberController {		//위에 RequestMapping 으로  내가 memeber�
 
 
 
-//@RequestMapping(value="/memupdate")
-//public void update(Member mb) {
-//	for (int i = 0; i < list.size(); i++) {
-//		if(list.get(i).getId().equals(mb.getId())) {
-//			list.set(i, mb);
-//		}
-//	}
-//}
 
-//@RequestMapping(value="/memdelete")
-//public void delete(String id) {
-//	for(int i = 0; i < list.size(); i++) {
-//		if(list.get(i).getId().equals(id)) {
-//			list.remove(i);
-//		}
-//	}
-//}

@@ -21,6 +21,7 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- 컨트롤러 패키지 넣어줘야함 -->
 	<context:component-scan base-package="edu.ssafy.springmvc" />
 	
 	

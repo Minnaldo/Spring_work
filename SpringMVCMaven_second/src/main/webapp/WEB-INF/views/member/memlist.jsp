@@ -15,7 +15,7 @@
 			</tr>
 			<c:forEach items="${list }" var="mem">
 				<tr>
-					<td>아이디 : ${mem.id }</td>
+					<td><a href="memselectone?id=${mem.id }"> ${mem.id } </a></td>
 					<td>이름 : ${mem.name }</td>
 					<td>이메일 : ${mem.email }</td>
 				</tr>

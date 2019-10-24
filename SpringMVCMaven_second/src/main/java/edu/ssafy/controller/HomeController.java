@@ -27,12 +27,8 @@ public class HomeController {
 	public ModelAndView testModel(ModelAndView mv) {
 		mv.addObject("res", "Ctrl Space 6번");
 		mv.setViewName("test");
-		
-		
 		return mv;
 	}
-	
-	
 	
 	@RequestMapping(value= {"/test","/test2"})		//이렇게 하면, test와 test2 2개 다 반응을 한다.
 	public String test(Model m) {
