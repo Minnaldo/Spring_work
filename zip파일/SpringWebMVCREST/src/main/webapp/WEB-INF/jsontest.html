@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<head>
+    <title>AJAX</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script>
+        function action(action, method) {
+            var in_num = $("#in_num").val();
+            var in_title = $("#in_title").val();
+            var in_content = $("#in_content").val();
+            var in_id = $("#in_id").val();
+            var url = "http://localhost:9090/controller/api/restboard";
+            if (action == 'sch' || action == 'del') {
+                url += '/' + in_num;
+            }
+            var sendData = '{ "num": ' + in_num + ', "title": ' + in_title + ', "content": ' + in_content + ', "id":' + in_id + '}'
+            if (method == 'get') {
+                sendData = '';
+            }
+            $.ajax({
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                "url": url,
+                "method": method,
+                "data": sendData,
+                "dataType": "json",
+                "contentType": "application/json, charset=utf-8",
+                "success": function (data) {
+                    $('#resultView').children('tr').remove();
+                    $(data).each(function (index, item) {
+                        console.log("num=" + item.num + ", title=" + item.title + ", content=" + item.content + ", id=" + item.id);
+                        console.log("num=" + data[index]["num"] + ", title=" + data[index]["title"] + ", content=" + data[index]["content"] + ", id=" + data[index]["id"]);
+                        $('#resultView').append("<tr> <td>" + item.num + "</td> <td>" + item.title + "</td> <td>" + item.content + "</td> <td>" + item.id + "</td> </tr>");
+                    });
+                },
+                "error": function (jqXHR, textStatus, errorThrown) {
+                    alert("에러가 발생하였습니다.");
+                    console.log(jqXHR);
+                    console.log(textStatus);
+                    console.log(errorThrown);
+                }
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <center>
+            <h1> Ajax Test Page </h1>
+        </center>
+    </header>
+    <section>
+        <center>
+            <input type="text" id="in_num" placeholder="num">
+            <input type="text" id="in_title">
+            <input type="text" id="in_content">
+            <input type="text" id="in_id"><br>
+            <button class="func_btn" value="add" onclick="action('add','post')">추가</button>
+            <button class="func_btn" value="del" onclick="action('del','delete')">삭제</button>
+            <button class="func_btn" value="upt" onclick="action('upt','put')">변경</button>
+            <button class="func_btn" value="lst" onclick="action('lst','get')">목록</button>
+            <button class=" func_btn" value="sch" onclick="action('sch','get')">찾기</button>
+        </center>
+    </section>
+    <section>
+        <table style="width: 40%; margin:auto; border: 1px solid black;">
+            <thead>
+                <tr>
+                    <th>Num</th>
+                    <th>Title</th>
+                    <th>Content</th>
+                    <th>ID</th>
+                </tr>
+            </thead>
+            <tbody id="resultView">
+
+            </tbody>
+        </table>
+    </section>
+    <footer></footer>
+</body>
+
+</html>

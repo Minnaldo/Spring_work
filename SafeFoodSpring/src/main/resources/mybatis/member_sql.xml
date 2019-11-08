@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="sql.member">
+  	<insert id="insertMember" parameterType="member">
+  		insert into memtb(id, pw, name, email, tel, alinfo)
+  		values(#{id}, #{pw}, #{name}, #{email}, #{tel}, #{alinfo})
+  	</insert>
+  	
+  	<select id="selectMembers" resultType="member">
+  		select id, pw, name, email, tel, alinfo
+  			from memtb
+  	</select>
+  </mapper>

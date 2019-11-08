@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sql.food">
+	<select id="selectlistFood" resultType="food">
+		select code, name, maker, material, image, supportpereat, calory, carbo, protein, fat, sugar, natrium, chole, fattyacid, transfat
+		from food
+	</select>
+	
+	<select id="selectoneFood" parameterType="string"
+		resultType="food">
+		select code, name, maker, material, image, supportpereat, calory, carbo, protein, fat, sugar, natrium, chole, fattyacid, transfat
+		from food where code = #{code}
+		
+	</select>
+	
+	<select id="selectmakerFood" parameterType="string"
+		resultType="food">
+		select code, name, maker, material, image
+		from food where maker like '%'+ #{maker} +'%'
+	
+	</select>
+
+	<select id="selectnameFood" parameterType="string"
+		resultType="food">
+		select code, name, maker, material, image
+		from food where name = #{name}
+		
+	</select>
+	
+	<select id="selectnamelistFood" parameterType="string" resultType="food">
+		select code, name, maker, material, image
+		from food where name like '%'+ #{name} +'%'
+	</select>
+	
+	<insert id="insertFood" parameterType="food">
+		insert into foodcode, name, maker, material, image, supportpereat, calory, carbo, protein, fat, sugar, natrium, chole, fattyacid, transfat)
+		values(#{foodcode}, #{name}, #{maker},#{material},#{image},#{supportpereat},#{calory},#{carbo},#{protein},#{fat},#{sugar},#{natrium},#{chole},#{fattyacid},#{transfat})
+	</insert>
+
+</mapper>

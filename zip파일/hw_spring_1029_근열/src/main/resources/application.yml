@@ -1,0 +1,18 @@
+#server:       #점은 탭 이퀄은 콜론
+#  port: 9090  #파이썬처럼 인텐드가 중요하다 -> 소속관계를 표현
+#  servlet:    #properties와 yml은 둘중에 하나에만 설정되어있어야한다
+#    context-path: /
+#    
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/springweb?serverTimezone=UTC&useUniCode=yes&characterEncoding=UTF-8
+#    username: ssafy
+#    password: ssafy
+#  mvc:        #카테고리가 중복되지 않게 몰아서 써준다
+#    view:
+#      prefix: /WEB-INF/
+#      suffix: .jsp
+#    
+#mybatis:
+#  config-location: classpath:/mybatis/MybatisConfig.xml
